@@ -25,8 +25,16 @@ async function run() {
           .db("HealthCare")
           .collection("services");
 
-        // services limit api 
+        // services all api 
           app.get("/services", async (req, res) => {
+            const query = {};
+            const cursor = servicesCollection.find(query);
+            const data = await cursor.toArray();
+            res.send(data);
+          });
+
+        // services limit api 
+          app.get("/limit-services", async (req, res) => {
             const query = {};
             const cursor = servicesCollection.find(query).limit(3);
             const data = await cursor.toArray();
