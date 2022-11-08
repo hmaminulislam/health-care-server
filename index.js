@@ -21,9 +21,9 @@ const client = new MongoClient(uri, {
 
 async function run() {
     try{
-        const servicesCollection = client
-          .db("HealthCare")
-          .collection("services");
+      //database collections
+        const servicesCollection = client.db("HealthCare").collection("services");
+        const reviewsCollection = client.db("HealthCare").collection("reviews");
 
         // services all api 
           app.get("/services", async (req, res) => {
@@ -41,7 +41,7 @@ async function run() {
             res.send(data);
           });
 
-          // single service api
+          // single service api get
           app.get('/service/:id', async(req, res) => {
             const id = req.params.id
             const query = {_id: ObjectId(id)}
@@ -52,6 +52,13 @@ async function run() {
           app.get("/", (req, res) => {
             res.send("Health care server is Running...");
           });
+
+          //review post api
+          app.post('/add-review', async(req, res) => {
+            const review = req.body
+            const data = await reviewsCollection.insertOne(review)
+            res.send(data)
+          })
     }
     catch(error) {
         console.log(error)
