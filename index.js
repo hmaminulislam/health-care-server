@@ -25,7 +25,7 @@ async function run() {
         const servicesCollection = client.db("HealthCare").collection("services");
         const reviewsCollection = client.db("HealthCare").collection("reviews");
 
-        // services all api 
+        // services all get api 
           app.get("/services", async (req, res) => {
             const query = {};
             const cursor = servicesCollection.find(query);
@@ -33,7 +33,7 @@ async function run() {
             res.send(data);
           });
 
-        // services limit api 
+        // services limit get api 
           app.get("/limit-services", async (req, res) => {
             const query = {};
             const cursor = servicesCollection.find(query).limit(3);
@@ -52,6 +52,15 @@ async function run() {
           app.get("/", (req, res) => {
             res.send("Health care server is Running...");
           });
+
+          //reviews get api
+          app.get('/reviews/:id', async(req, res) => {
+            const id = req.params.id
+            const query = {serviceId: id}
+            const cursor = reviewsCollection.find(query)
+            const data = await cursor.toArray()
+            res.send(data)
+          })
 
           //review post api
           app.post('/add-review', async(req, res) => {
