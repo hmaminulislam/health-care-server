@@ -114,6 +114,13 @@ async function run() {
             });
             res.send({ token });
           });
+
+          //service post api
+          app.post('/add-service', async(req, res) => {
+            const service = req.body;
+            const data = await servicesCollection.insertOne(service)
+            res.send(data)
+          })
     }
     catch(error) {
         console.log(error)
