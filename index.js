@@ -130,6 +130,22 @@ async function run() {
             res.send(data)
           })
 
+          //edit review patch api
+          app.patch('/edit-review/:id', async(req, res) => {
+            const updateReview = req.body;
+            const id = req.params.id;
+            const query = {_id : ObjectId(id)}
+            const options = { upsert: true };
+            const updateDoc = {
+              $set: {
+                review: updateReview.review,
+                image: updateReview.image
+              },
+            };
+            const data = await reviewsCollection.updateOne(query, updateDoc, options)
+            res.send(data)
+          })
+
           //delete review api
           app.delete("/delete-review", async(req, res) => {
             const id = req.headers.id
