@@ -99,6 +99,14 @@ async function run() {
             res.send(data)
           })
 
+          //single review get
+          app.get('/edit-review-get/:id', async(req, res) => {
+            const id = req.params.id
+            const query = {_id: ObjectId(id)}
+            const data = await reviewsCollection.findOne(query)
+            res.send(data)
+          })
+
           //review post api
           app.post('/add-review', async(req, res) => {
             const review = req.body
@@ -121,6 +129,14 @@ async function run() {
             const data = await servicesCollection.insertOne(service)
             res.send(data)
           })
+
+          //delete review api
+          app.delete("/delete-review", async(req, res) => {
+            const id = req.headers.id
+            const query = {_id: ObjectId(id)}
+            const data = await reviewsCollection.deleteOne(query)
+            res.send(data)
+          });
     }
     catch(error) {
         console.log(error)
